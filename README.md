@@ -1,9 +1,11 @@
 # AlibabaTraceAnalysis
 AlibabaTraceAnalysis
-# Schema
+panda
+1.use df.groupby(taskType) to classfy
+2.use df[df.taskPrice == 65] to choice
 
+# 2018 Schema
 This file describes the schema of each data file.
-
 The index below is aligned with the data column in each file.
 
 ### machine meta

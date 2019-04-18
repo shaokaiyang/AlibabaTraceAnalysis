@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 
 # file_input_path = 'E:\\AlibabaTraceAnalysis\\test.csv'
-file_input_path = 'E:\\AlibabaTraceAnalysis\\alibaba_clustertrace_2018\\container_meta.csv'
+file_input_path = 'E:\\AlibabaTraceAnalysis\\alibaba_clustertrace_2018\\batch_task.csv'
 
 if __name__ == '__main__':
     start = time.time()

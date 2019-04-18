@@ -123,6 +123,5 @@ if __name__ == '__main__':
     # 记录文件行数
     max_length = df.shape[0]
     result = statistic_container_meta_machine(df, max_length)
-    save4 = pd.DataFrame({'machineID': result[0], 'machine_include_containers': result[1],
-     'machine_include_apps': result[2]})
+    save4 = pd.DataFrame({'machineID': result[0], 'machine_include_containers': result[1],'machine_include_apps': result[2]})
     save4.to_csv(file_output_path4, index=False)
