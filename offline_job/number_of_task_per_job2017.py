@@ -18,7 +18,6 @@ file_output_path = 'D:\\AlibabaTraceAnalysis\\AnalysisResult\\number_of_task_per
 if __name__ == '__main__':
     # 统计资源信息
     start = time.time()
-    count = 0
 
     # 读取task_start_time中的提交时间
     reader = pd.read_csv(file_input_path, header=None, usecols=[2])
