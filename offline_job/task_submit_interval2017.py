@@ -43,7 +43,7 @@ if __name__ == '__main__':
             last_time = j
             count = 1
             interval_list.append(j - pre_time)
-    interval_list.append(count)
+    number_list.append(count)
     print('存在 %s 个时间间隔' % len(interval_list))
     print('存在 %s 个提交时间点' % len(number_list))
     save1 = pd.DataFrame({'task_submit_interval2017': interval_list})
