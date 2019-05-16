@@ -9,6 +9,8 @@ import _thread
 
 day = 86400
 
+# log文件路径
+log_path = 'D:\\AlibabaTraceAnalysis\\log.txt'
 # file_input_path = 'E:\\AlibabaTraceAnalysis\\test.csv'
 # 输入路径
 file_input_path = 'D:\\AlibabaTraceAnalysis\\alibaba_clustertrace_2018\\container_usage.csv'
@@ -27,6 +29,7 @@ def group_write(data_frame, data_index, index, file_out_path):
 
 
 if __name__ == '__main__':
+    f = open(log_path, "a", encoding="GB18030")
     # 统计资源信息
     start = time.time()
     reader = pd.read_csv(file_input_path, header=None, usecols=save_list, chunksize=20000000)
@@ -38,8 +41,10 @@ if __name__ == '__main__':
             group_write(chunk, timestamp_index, i+3, file_path)
         count += chunk.shape[0]
         print("前 %s 行完成" % count)
+        f.write("前 %s 行完成\n" % count)
         # if count == 10000:
         #     break
+    f.close()
     print(count)
     end = time.time()
     print('Running time: %s Seconds' % (end - start))

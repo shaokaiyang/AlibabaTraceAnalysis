@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 # 提取三天(3,4,5天)中task的开始时间（可以认为是提交时间）
+# 处理后的数据中包含任务类型信息和提交时间
 
 import pandas as pd
 import numpy as np

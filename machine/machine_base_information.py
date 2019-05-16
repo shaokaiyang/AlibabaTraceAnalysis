@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 file_input_path = 'E:\\AlibabaTraceAnalysis\\alibaba_clustertrace_2018\\machine_meta.csv'
 file_output_path1 = 'E:\\AlibabaTraceAnalysis\\AnalysisResult\\machine_frame_result.csv'
@@ -9,10 +9,13 @@ file_output_path2 = 'E:\\AlibabaTraceAnalysis\\AnalysisResult\\machine_room_resu
 
 
 class MachineMetaStructure:
-    '''
-    记录机器的元数据信息，包括：
-    机器ID，机器时间戳，机器所在机架，机器所在机房
-    '''
+    """
+    记录机器的元数据信息
+    @:param machine_id: 机器的ID信息
+    @:param machine_timestamp: 机器的时间戳信息
+    @:param machine_frame: 机器所在的机架编号
+    @:param machine_room: 机器所在的机房编号
+    """
     def __init__(self, machine_id, machine_timestamp, machine_frame, machine_room):
         self.machine_id = machine_id
         self.machine_timestamp = machine_timestamp
@@ -44,8 +47,8 @@ def statistic_machine_meta(data_frame):
         # 进行无效数据过滤，不符合时间戳或者为NAN
         if row_info[1] not in range(1, 691201) \
                 or row_info[2] not in range(1, max_machine_frame + 1) \
-                or row_info[3] < 1.0\
-                or row_info[3] > max_machine_room\
+                or row_info[3] < 1.0 \
+                or row_info[3] > max_machine_room \
                 or np.isnan(row_info[3]):
             continue
         # 将一行数据存储到结构体中进行统计
@@ -88,7 +91,3 @@ if __name__ == '__main__':
     save1.to_csv(file_output_path1, index=False)
     save2 = pd.DataFrame({'machine_room': result[2]})
     save2.to_csv(file_output_path2, index=False)
-
-
-
-
