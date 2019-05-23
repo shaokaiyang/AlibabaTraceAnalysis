@@ -8,6 +8,9 @@ import numpy as np
 import time
 import _thread
 
+# 输入输出路径前缀
+file_input_path_prefix = 'D:\\AlibabaTraceAnalysis\\SplitResult\\batch_task_'
+file_output_path_prefix = 'D:\\AlibabaTraceAnalysis\\AnalysisResult\\task_duration_'
 
 # 输入路径
 file_input_path0 = 'D:\\AlibabaTraceAnalysis\\SplitResult\\batch_task_0.csv'
@@ -22,15 +25,17 @@ file_output_path2 = 'D:\\AlibabaTraceAnalysis\\AnalysisResult\\task_duration_2.c
 file_output_path_list1 = [file_output_path0, file_output_path1, file_output_path2]
 
 # 分析的天数
-days = 3
+days = 8
 
 if __name__ == '__main__':
     # 统计资源信息
     start = time.time()
     count = 0
     for i in range(days):
+        file_path_in = file_input_path_prefix + str(i) + '.csv'
+        file_path_out = file_output_path_prefix + str(i) + '.csv'
         # 记录资源申请情况
-        reader = pd.read_csv(file_input_path_list[i], header=None, usecols=[5, 6])
+        reader = pd.read_csv(file_path_in, header=None, usecols=[5, 6])
         result_list = reader.values.tolist()
         print(result_list)
         print('提交的task数量为 %s' % len(result_list))
@@ -41,7 +46,8 @@ if __name__ == '__main__':
             duration_list.append(k[1] - k[0])
         print('存在 %s 个task' % len(duration_list))
         save1 = pd.DataFrame({'task_duration': duration_list})
-        save1.to_csv(file_output_path_list1[i], index=False, header=False, mode='a')
+        save1.to_csv(file_path_out, index=False, header=False, mode='a')
+        print("第 %s 个文件，处理完毕" % i)
 
     end = time.time()
     print('Running time: %s Seconds' % (end - start))

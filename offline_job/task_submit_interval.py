@@ -8,6 +8,9 @@ import numpy as np
 import time
 import _thread
 
+# 输入输出路径前缀
+file_input_path_prefix = 'D:\\AlibabaTraceAnalysis\\AnalysisResult\\task_start_time_'
+file_output_path_prefix = 'D:\\AlibabaTraceAnalysis\\AnalysisResult\\task_submit_interval_'
 
 # 输入路径
 file_input_path0 = 'D:\\AlibabaTraceAnalysis\\AnalysisResult\\task_start_time_0.csv'
@@ -21,7 +24,7 @@ file_output_path1 = 'D:\\AlibabaTraceAnalysis\\AnalysisResult\\task_submit_inter
 file_output_path2 = 'D:\\AlibabaTraceAnalysis\\AnalysisResult\\task_submit_interval_2.csv'
 file_output_path_list = [file_output_path0, file_output_path1, file_output_path2]
 # 分析的天数
-days = 3
+days = 8
 day = 86400
 
 if __name__ == '__main__':
@@ -29,8 +32,10 @@ if __name__ == '__main__':
     start = time.time()
     count = 0
     for i in range(days):
+        file_path_in = file_input_path_prefix + str(i) + '.csv'
+        file_path_out = file_output_path_prefix + str(i) + '.csv'
         # 读取task_start_time中的提交时间
-        reader = pd.read_csv(file_input_path_list[i], header=None, usecols=[1])
+        reader = pd.read_csv(file_path_in, header=None, usecols=[1])
         result = reader.sort_values(by=[1])
         result_list = result.values.tolist()
         interval_list = []
@@ -46,9 +51,10 @@ if __name__ == '__main__':
                 count = 1
         interval_list.append(count)
         print(len(interval_list))
-        # save = pd.DataFrame({'task_submit_interval': interval_list})
-        # save.to_csv(file_output_path_list[i], index=False, header=False, mode='a')
-        # print(len(result_list))
+        save = pd.DataFrame({'task_submit_interval': interval_list})
+        save.to_csv(file_path_out, index=False, header=False, mode='a')
+        print(len(result_list))
+        print("第 %s 个文件，处理完毕" % i)
 
     end = time.time()
     print('Running time: %s Seconds' % (end - start))

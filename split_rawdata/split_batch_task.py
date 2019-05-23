@@ -32,10 +32,10 @@ if __name__ == '__main__':
     reader = pd.read_csv(file_input_path, header=None, usecols=save_list, chunksize=20000000)
     count = 0
     for chunk in reader:
-        for i in range(0, 3):
+        for i in range(0, 8):
             file_path = file_output_prefix + str(i) + '.csv'
             # _thread.start_new_thread(group_write, (chunk, 5, i+3, file_path))
-            group_write(chunk, timestamp_index, i+3, file_path)
+            group_write(chunk, timestamp_index, i, file_path)
         count += chunk.shape[0]
         print("前 %s 行完成" % count)
         # if count == 100:
