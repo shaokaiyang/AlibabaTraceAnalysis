@@ -40,6 +40,8 @@ plt.legend(['train', 'test'])
 plt.show()
 
 # 将训练集和测试集缩放为[-1,1]
+# 缩放公式为：xi = (xi - mean(xi))/(max(xi)-min(xi))
+# 后续可以利用此公式进行数据还原
 scaler = MinMaxScaler(feature_range=(-1, 1))
 train_sc = scaler.fit_transform(train)
 test_sc = scaler.transform(test)
@@ -68,27 +70,29 @@ print("The R2 score on the Train set is:\t{:0.3f}".format(r2_score(y_train, y_tr
 print("The R2 score on the Test set is:\t{:0.3f}".format(r2_score(y_test, y_pred_test_nn)))
 
 
-# # LSTM
-# lstm_model = Sequential()
-# # 有一个可见层，有一个输入，隐藏层有7个LSTM神经元，输出层进行单值预测，使用relu函数进行激活
-# lstm_model.add(LSTM(7, input_shape=(1, X_train.shape[1]), activation='relu', kernel_initializer='lecun_uniform',
-#                     return_sequences=False))
-# lstm_model.add(Dense(1))
-# lstm_model.compile(loss='mean_squared_error', optimizer='adam')
-# early_stop = EarlyStopping(monitor='loss', patience=2, verbose=1)
-# history_lstm_model = lstm_model.fit(X_train, y_train, epochs=100, batch_size=1, verbose=1, shuffle=False,
-#                                     callbacks=[early_stop])
-# # 预测值
-# y_pred_test_lstm = lstm_model.predict(X_test)
-# y_train_pred_lstm = lstm_model.predict(X_train)
-# print("The R2 score on the Train set is:\t{:0.3f}".format(r2_score(y_train, y_train_pred_lstm)))
-# print("The R2 score on the Test set is:\t{:0.3f}".format(r2_score(y_test, y_pred_test_lstm)))
-#
-# # 两种模型MSE比较
-# nn_test_mse = nn_model.evaluate(X_test, y_test, batch_size=1)
-# lstm_test_mse = lstm_model.evaluate(X_test, y_test, batch_size=1)
-# print('ANN: %f' % nn_test_mse)
-# print('LSTM: %f' % lstm_test_mse)
+# LSTM
+X_train_lstm = np.reshape(X_train, (X_train.shape[0], X_train.shape[1], 1))
+X_test_lstm = np.reshape(X_test, (X_test.shape[0], X_test.shape[1], 1))
+lstm_model = Sequential()
+# 有一个可见层，有一个输入，隐藏层有7个LSTM神经元，输出层进行单值预测，使用relu函数进行激活
+lstm_model.add(LSTM(7, input_shape=(1, X_train_lstm.shape[1]), activation='relu', kernel_initializer='lecun_uniform',
+                    return_sequences=False))
+lstm_model.add(Dense(1))
+lstm_model.compile(loss='mean_squared_error', optimizer='adam')
+early_stop = EarlyStopping(monitor='loss', patience=2, verbose=1)
+history_lstm_model = lstm_model.fit(X_train_lstm, y_train, epochs=100, batch_size=1, verbose=1, shuffle=False,
+                                    callbacks=[early_stop])
+# 预测值
+y_pred_test_lstm = lstm_model.predict(X_test_lstm)
+y_train_pred_lstm = lstm_model.predict(X_train_lstm)
+print("The R2 score on the Train set is:\t{:0.3f}".format(r2_score(y_train, y_train_pred_lstm)))
+print("The R2 score on the Test set is:\t{:0.3f}".format(r2_score(y_test, y_pred_test_lstm)))
+
+# 两种模型MSE比较
+nn_test_mse = nn_model.evaluate(X_test, y_test, batch_size=1)
+lstm_test_mse = lstm_model.evaluate(X_test_lstm, y_test, batch_size=1)
+print('ANN: %f' % nn_test_mse)
+print('LSTM: %f' % lstm_test_mse)
 
 # 进行预测
 nn_y_pred_test = nn_model.predict(X_test)
@@ -102,12 +106,12 @@ plt.ylabel('Adj Close Scaled')
 plt.legend()
 plt.show()
 
-# # LSTM预测
-# plt.figure(figsize=(10, 6))
-# plt.plot(y_test, label='True')
-# plt.plot(y_pred_test_lstm, label='LSTM')
-# plt.title("LSTM's Prediction")
-# plt.xlabel('Observation')
-# plt.ylabel('Adj Close scaled')
-# plt.legend()
-# plt.show()
+# LSTM预测
+plt.figure(figsize=(10, 6))
+plt.plot(y_test, label='True')
+plt.plot(y_pred_test_lstm, label='LSTM')
+plt.title("LSTM's Prediction")
+plt.xlabel('Observation')
+plt.ylabel('Adj Close scaled')
+plt.legend()
+plt.show()
