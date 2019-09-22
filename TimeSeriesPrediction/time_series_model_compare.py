@@ -1,5 +1,6 @@
 # -*- coding: UTF-8 -*-
 # 通过移动平均、K-近邻、自动ARIMA、先知（Prophet）、LSTM等方法进行时间序列分析，分析股市的收盘价
+# https://www.jiqizhixin.com/articles/2019-01-04-16
 
 import pandas as pd
 import numpy as np
