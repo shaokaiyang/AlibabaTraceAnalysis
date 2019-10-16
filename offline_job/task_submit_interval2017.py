@@ -1,7 +1,7 @@
 # -*- coding: UTF-8 -*-
 # 分析2017年trace数据
 # 输入为：batch_task文件
-# 输出为：任务提交的时间间隔，相同提交时间点提交的任务数量
+# 输出为：所有任务提交的时间间隔，相同提交时间点提交的任务数量
 
 import pandas as pd
 import numpy as np
